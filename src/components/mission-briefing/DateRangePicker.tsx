@@ -1,14 +1,14 @@
 import { useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import type { DateRange } from "../types";
-import { APOD_MIN, MONTH_NAMES, TODAY, WEEKDAYS } from "../constants";
+import type { DateRange } from "../../types";
+import { APOD_MIN, MONTH_NAMES, TODAY, WEEKDAYS } from "../../constants";
 import {
   addMonths,
   daysInMonth,
   firstDayOfWeek,
   rangeLabel,
-} from "../lib/format";
-import { useClickOutside } from "..//hooks/useClickOutside";
+} from "../../lib/format";
+import { useClickOutside } from "../../hooks/useClickOutside";
 
 interface DateRangePickerProps {
   value: DateRange;
