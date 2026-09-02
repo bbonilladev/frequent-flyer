@@ -1,58 +1,71 @@
-# Frequent Flyer
+# Frequent Flyer App
 
-NASA's [Astronomy Picture of the Day](https://apod.nasa.gov/) archive, reimagined as an airline boarding-pass collection. Each APOD entry gets a generated flight code (e.g. `FF250902`) and a deterministic "miles" balance, styled with a retro-futuristic airline aesthetic.
+A retro-airline "boarding pass" kiosk for NASA's [Astronomy Picture of the Day](https://apod.nasa.gov/apod/) archive. Every day since 1995, NASA has pointed a lens at the cosmos. This app reframes that archive as a passenger's flight log: pick a data, a date range or ask for a random set of "flights", and each entry comes back as a boarding pass you "claim", complete with a barcode stub, a flight code, and a seeded "miles earned" count.
 
-> **Status: work in progress.** The data layer (NASA API client, formatting helpers, accessibility hooks) is built, but the UI components that consume it are not — `App.tsx` is still a placeholder.
+## Design inspiration
 
-## Tech stack
+### The reference boarding passes
 
-- [Vite](https://vite.dev/) 8
-- [React](https://react.dev/) 19 + TypeScript
-- [Tailwind CSS](https://tailwindcss.com/) v4 (CSS-based `@theme`, no `tailwind.config.js`)
-- [oxlint](https://oxc.rs/) for linting
+These two are real — actual souvenir boarding passes from NASA's [Send Your Name to Mars](https://mars.nasa.gov/participate/send-your-name/insight/faq/) campaigns (InSight and Mars 2020), where your name flies to Mars on a microchip and you get a personalized boarding pass back.
 
-## Getting started
+<table>
+<tr>
+<td width="50%"><img src="inspo/reference-boarding-pass-insight.png" alt="Personal souvenir boarding pass from NASA's InSight Send Your Name to Mars campaign, styled as an airline ticket with a barcode stub, passenger name, launch/arrival sites, and award points earned" width="100%" /></td>
+<td width="50%"><img src="inspo/reference-boarding-pass-mars2020.png" alt="Personal souvenir boarding pass from NASA's Mars 2020 Send Your Name to Mars campaign, in the same airline-ticket layout" width="100%" /></td>
+</tr>
+</table>
 
-```bash
-npm install
-cp .env.example .env.local
-npm run dev
-```
+That's where the boarding-pass concept and the PASSENGER / ORIGIN / LOGGED / MILES field system come from — and where Jezero Crater, Mars 2020's real landing site, comes from too, reused here as the fictional home airport every flight in this app departs from.
 
-The app calls NASA's APOD API and works out of the box using NASA's shared `DEMO_KEY`, but that key is rate-limited to 30 requests/hour/IP. For a smoother experience, grab a free key at [api.nasa.gov](https://api.nasa.gov) and set it in `.env.local`:
+### The Figma design
 
-```
-VITE_NASA_API_KEY=your-key-here
-```
+Cream boarding-pass paper, dark-blue barcode stubs, Space Mono micro-type, Orbitron display headings, a deep-space starfield backdrop.
 
-## Scripts
+[Frequent Flyer — UX Design](https://www.figma.com/design/KYiEsuZa9K3jDSc0V3HXBQ/Frequent-Flyer-%E2%80%94-UX-Design?node-id=2-2).
 
-| Command           | Description                          |
-| ------------------ | ------------------------------------- |
-| `npm run dev`     | Start the Vite dev server             |
-| `npm run build`   | Type-check (`tsc -b`) and build for production |
-| `npm run lint`    | Run oxlint                            |
-| `npm run preview` | Preview the production build locally  |
+## Stack
+
+- React 19 + TypeScript, Vite 8
+- Tailwind CSS v4 (`@theme inline` tokens in `src/index.css` are the single source of truth for color, type scale, spacing, shadows, and z-index)
+- `react-router-dom` (single `"/"` route; the search/results/detail flow is in-memory state, not URL-driven)
+- `oxlint` for linting
 
 ## Project structure
 
 ```
 src/
-├── App.tsx          # Root component (placeholder — UI not yet built)
-├── main.tsx         # React entry point
-├── constants.ts      # APOD date bounds, calendar labels
-├── types.ts           # ApodEntry, DateRange, FilterMode, LightboxState
-├── index.css          # Tailwind v4 theme tokens (fonts, colors, radii, shadows)
-├── hooks/              # UI/accessibility hooks: focus trap, click-outside,
-│                        # escape-key, modal dismiss, responsive page size,
-│                        # progressive image preload
-└── lib/
-    ├── apod.ts         # NASA APOD API client (date-range, random, collage fetches)
-    └── format.ts       # Flight code / seeded miles / date formatting helpers
-
-inspo/                  # Reference screenshots for the boarding-pass design
+  lib/            API layer (src/lib/apod.ts) and pure formatting helpers
+  hooks/          useClickOutside, useFocusTrap, useModalDismiss, useEscapeKey, usePageSize, useImagePreloadStream, ...
+  components/
+    ui/           shared primitives (Modal, DataField, CloseButton, GalaxyLoader, ...)
+    layout/       header, footer, skip link, starfield background, user menu
+    boarding-pass/  the results grid and its card
+    arrival/      the arrival (detail) modal and video embed
+    lightbox/     full-bleed image viewer
+    name-gate/    the entry screen
+    mission-briefing/  the search screen (date range / random count)
+  screens/        thin per-screen compositions consumed by App.tsx
 ```
 
-## Design
+## Getting started
 
-Visual design (Orbitron display font, Space Mono monospace, orange/navy/gold palette) is based on a Figma design system, referenced directly in `src/index.css`. Reference screenshots of the target "boarding pass" card design live in [`inspo/`](inspo/).
+```bash
+npm install
+npm run dev
+```
+
+By default the app calls the NASA APOD API with the public `DEMO_KEY`, which is rate-limited to 30 requests/hour/IP. To use your own key ([get one free](https://api.nasa.gov)), copy `.env.example` to `.env.local` and set `VITE_NASA_API_KEY`. `.env.local` is gitignored.
+
+### Scripts
+
+| Command             | Description                                                                                |
+| ------------------- | ------------------------------------------------------------------------------------------ |
+| `npm run dev`       | Start the Vite dev server                                                                  |
+| `npm run build`     | Type-check (`tsc -b`) and build for production                                             |
+| `npm run lint`      | Run oxlint                                                                                 |
+| `npm run preview`   | Preview the production build locally                                                       |
+| `npm run precommit` | Runs `build` then `lint` — not wired to an actual git hook, run it manually before pushing |
+
+## Contact
+
+Questions, feedback, or requests — reach out to Barbara Bonilla at [bbonillasnchz@gmail.com](mailto:bbonillasnchz@gmail.com).
