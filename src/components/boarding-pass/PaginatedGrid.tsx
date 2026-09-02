@@ -89,6 +89,7 @@ export function PaginatedGrid({
 
           {/* Page dots — each button's hit area is 24x24 (WCAG 2.5.8 target
               size minimum) even though the visible dot itself stays small */}
+          {/* oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- a fieldset would need a <legend>, redesigning this control's layout. */}
           <div className="flex items-center" role="group" aria-label="Pages">
             {Array.from({ length: totalPages }, (_, i) => (
               <button

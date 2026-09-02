@@ -31,6 +31,7 @@ export function BoardingPass({
   const isVideo = entry.media_type === "video";
 
   return (
+    // oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions -- mouse-only larger hit area; the nested button below already performs the identical onOpen action with full keyboard support.
     <article
       className="@container group relative rounded-card overflow-hidden cursor-pointer transition-[transform,box-shadow] duration-250 ease-out hover:-translate-y-0.75 shadow-(--shadow-card) hover:shadow-(--shadow-card-hover)"
       style={{
@@ -68,23 +69,32 @@ export function BoardingPass({
         </div>
 
         {/* Image panel */}
+        {/* oxlint-disable-next-line jsx-a11y/no-static-element-interactions -- role/tabIndex/handlers are all applied together only when !isVideo; the video branch renders no handlers at all. */}
         <div
           className="relative shrink-0 overflow-hidden w-23 @md:w-32.5"
           style={{ alignSelf: "stretch" }}
           role={isVideo ? undefined : "button"}
           tabIndex={isVideo ? undefined : 0}
           aria-label={isVideo ? undefined : `View full image: ${entry.title}`}
-          onClick={(e) => {
-            e.stopPropagation();
-            if (!isVideo) onImageClick(entry.hdurl || entry.url, entry.title);
-          }}
-          onKeyDown={(e) => {
-            if (!isVideo && (e.key === "Enter" || e.key === " ")) {
-              e.preventDefault();
-              e.stopPropagation();
-              onImageClick(entry.hdurl || entry.url, entry.title);
-            }
-          }}
+          onClick={
+            isVideo
+              ? undefined
+              : (e) => {
+                  e.stopPropagation();
+                  onImageClick(entry.hdurl || entry.url, entry.title);
+                }
+          }
+          onKeyDown={
+            isVideo
+              ? undefined
+              : (e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onImageClick(entry.hdurl || entry.url, entry.title);
+                  }
+                }
+          }
         >
           {isVideo ? (
             <a

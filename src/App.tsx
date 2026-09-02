@@ -55,6 +55,8 @@ function AppShell() {
       return;
     }
     document.getElementById("main-content")?.focus();
+    // showSearch is kept as a deliberate re-trigger dependency even though it isn't read above.
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
   }, [showSearch]);
 
   const saveName = useCallback((name: string) => {

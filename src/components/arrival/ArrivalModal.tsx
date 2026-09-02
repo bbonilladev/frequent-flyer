@@ -63,14 +63,15 @@ export function ArrivalModal({ entry, passengerName, onClose, onImageClick }: Ar
             </div>
 
             {/* Image — clickable with hover overlay, no separate button */}
+            {/* oxlint-disable-next-line jsx-a11y/no-static-element-interactions -- role is always present (never undefined); onClick/onKeyDown are gated no-ops when isVideo since VideoEmbed provides its own interaction. */}
             <div
               className="relative shrink-0 overflow-hidden"
               style={{ height: 240, cursor: isVideo ? "default" : "pointer" }}
               onClick={() => { if (!isVideo) onImageClick(entry.hdurl || entry.url, entry.title); }}
               onMouseEnter={() => setImgHover(true)}
               onMouseLeave={() => setImgHover(false)}
-              role={isVideo ? undefined : "button"}
-              tabIndex={isVideo ? undefined : 0}
+              role={isVideo ? "presentation" : "button"}
+              tabIndex={isVideo ? -1 : 0}
               aria-label={isVideo ? undefined : `View full image: ${entry.title}`}
               onKeyDown={(e) => {
                 if (!isVideo && (e.key === "Enter" || e.key === " ")) {

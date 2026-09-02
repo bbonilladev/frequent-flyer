@@ -30,8 +30,10 @@ export function Modal({ onClose, ariaLabel, ariaLabelledBy, background, blur, zI
   const closeButtonRef = useModalDismiss<HTMLButtonElement>(onClose);
 
   return (
+    // oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions -- ESC already closes via useModalDismiss, so a full keyboard equivalent exists even though it isn't a handler on this element.
     <div
       ref={overlayRef}
+      // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- swapping to <dialog> would change useFocusTrap/useModalDismiss semantics.
       role="dialog"
       aria-modal="true"
       aria-label={ariaLabel}

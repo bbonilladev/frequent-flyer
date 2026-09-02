@@ -14,6 +14,7 @@ export function LoadingGrid({ count = 6 }: LoadingGridProps) {
       </div>
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
         <GalaxyLoader size={64} />
+        {/* oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- swapping to <output> would change this paragraph's default styling/semantics. */}
         <p role="status" className="text-label tracking-label" style={{ color: "var(--color-navy-700)", fontFamily: "var(--font-mono)" }}>
           SCANNING THE LOG…
         </p>

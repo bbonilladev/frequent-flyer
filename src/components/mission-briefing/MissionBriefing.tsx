@@ -66,10 +66,12 @@ export function MissionBriefing({ filterMode, dateRange, randomCount, loading, e
             convenience click); role="radio" lives on just the header button
             so the DateRangePicker's own buttons below aren't ARIA-nested
             inside a radio widget. */}
+        {/* oxlint-disable-next-line click-events-have-key-events, no-static-element-interactions -- mouse-only convenience; the role="radio" button below already covers keyboard selection. */}
         <div onClick={() => onModeChange("range")} style={cardStyle(filterMode === "range")}>
           <button
             ref={rangeRadioRef}
             type="button"
+            // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- an <input type="radio"> can't host this button's roving-tabindex/arrow-key composite-widget behavior without a rewrite.
             role="radio"
             aria-checked={filterMode === "range"}
             tabIndex={filterMode === "range" ? 0 : -1}
@@ -90,6 +92,7 @@ export function MissionBriefing({ filterMode, dateRange, randomCount, loading, e
           <p className="text-caption leading-relaxed mb-5 flex-1" style={{ color: filterMode === "range" ? "var(--color-navy-300)" : "var(--color-navy-700)", fontFamily: "var(--font-mono)" }}>
             Pick a date or a window. We will show you what the sky looked like from here.
           </p>
+          {/* oxlint-disable-next-line click-events-have-key-events, no-static-element-interactions -- stops inner clicks from re-triggering the card's onModeChange; same keyboard path via the card's radio button. */}
           <div onClick={(e) => e.stopPropagation()}>
             <DateRangePicker value={dateRange} onChange={onDateChange} onActivate={() => onModeChange("range")} />
           </div>
@@ -97,10 +100,12 @@ export function MissionBriefing({ filterMode, dateRange, randomCount, loading, e
 
         {/* Surprise Me — same pattern: role="radio" on the header button only,
             RandomCountInput's own +/- buttons are siblings, not descendants. */}
+        {/* oxlint-disable-next-line click-events-have-key-events, no-static-element-interactions -- mouse-only convenience; the role="radio" button below already covers keyboard selection. */}
         <div onClick={() => onModeChange("random")} style={cardStyle(filterMode === "random")}>
           <button
             ref={randomRadioRef}
             type="button"
+            // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- an <input type="radio"> can't host this button's roving-tabindex/arrow-key composite-widget behavior without a rewrite.
             role="radio"
             aria-checked={filterMode === "random"}
             tabIndex={filterMode === "random" ? 0 : -1}
@@ -119,6 +124,7 @@ export function MissionBriefing({ filterMode, dateRange, randomCount, loading, e
           <p className="text-caption leading-relaxed mb-5 flex-1" style={{ color: filterMode === "random" ? "var(--color-navy-300)" : "var(--color-navy-700)", fontFamily: "var(--font-mono)" }}>
             Let the sky decide. We will pull a random set of nights from the log.
           </p>
+          {/* oxlint-disable-next-line click-events-have-key-events, no-static-element-interactions -- stops inner clicks from re-triggering the card's onModeChange; same keyboard path via the card's radio button. */}
           <div onClick={(e) => e.stopPropagation()} className="flex items-center gap-3">
             <RandomCountInput value={randomCount} onChange={(n) => { onModeChange("random"); onCountChange(n); }} />
             <span className="text-caption" style={{ color: filterMode === "random" ? "var(--color-label-grey)" : "var(--color-navy-700)", fontFamily: "var(--font-mono)" }}>

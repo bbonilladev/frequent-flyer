@@ -9,6 +9,7 @@ export function RandomCountInput({ value, onChange }: RandomCountInputProps) {
 
   return (
     <div
+      // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- a fieldset would need a <legend>, redesigning this control's layout.
       role="group"
       aria-label="Number of random images"
       className="flex items-stretch rounded-lg overflow-hidden shrink-0"

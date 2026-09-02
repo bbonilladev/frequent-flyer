@@ -19,7 +19,6 @@ export function Lightbox({ src, alt, onClose }: LightboxProps) {
             alt={alt}
             className="max-w-full max-h-full object-contain"
             style={{ maxHeight: "92vh", maxWidth: "92vw" }}
-            onClick={(e) => e.stopPropagation()}
           />
           <p
             className="absolute bottom-4 left-1/2 -translate-x-1/2 text-caption tracking-[0.25em]"

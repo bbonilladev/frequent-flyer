@@ -167,7 +167,6 @@ export function NameModal({ onSave }: NameModalProps) {
                 outlineColor: "var(--color-core-orange)",
                 letterSpacing: "0.04em",
               }}
-              autoFocus
             />
             {!value && (
               <div className="absolute right-4 top-1/2 -translate-y-1/2 text-label tracking-label" style={{ color: "var(--color-navy-300)", fontFamily: "var(--font-mono)", pointerEvents: "none" }}>

@@ -23,6 +23,7 @@ export function Header({ passengerName, onEditName, onSignOut, onGoHome }: Heade
         <button
           type="button"
           onClick={onGoHome}
+          aria-label="Go to home"
           className="flex items-center gap-3 -m-2 p-2 rounded-lg text-left transition-colors hover:bg-white/5"
         >
           <div className="flex items-center overflow-hidden rounded shrink-0" aria-hidden="true" style={{ height: 26 }}>

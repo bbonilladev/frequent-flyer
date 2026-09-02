@@ -12,6 +12,7 @@ export function GalaxyLoader({ size = 56 }: GalaxyLoaderProps) {
   const ry2 = size * 0.09;
 
   return (
+    // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- this is an <svg>, not swappable to <output>.
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} fill="none" role="status" aria-label="Loading">
       {/* Outer ring — orange, clockwise */}
       <ellipse cx={cx} cy={cy} rx={rx1} ry={ry1} stroke="var(--color-core-orange)" strokeWidth="0.9" strokeDasharray="7 4" opacity="0.65">
