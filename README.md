@@ -2,6 +2,8 @@
 
 A retro-airline "boarding pass" kiosk for NASA's [Astronomy Picture of the Day](https://apod.nasa.gov/apod/) archive. Every day since 1995, NASA has pointed a lens at the cosmos. This app reframes that archive as a passenger's flight log: pick a data, a date range or ask for a random set of "flights", and each entry comes back as a boarding pass you "claim", complete with a barcode stub, a flight code, and a seeded "miles earned" count.
 
+For quicker access, check out the test build on Vercel: **[frequent-flyer-pi.vercel.app](https://frequent-flyer-pi.vercel.app/)**.
+
 ## Design inspiration
 
 ### The reference boarding passes
