@@ -8,3 +8,15 @@ export interface ApodEntry {
   media_type: string;
   copyright?: string;
 }
+
+export interface DateRange {
+  start: string | null;
+  end: string | null;
+}
+
+export type FilterMode = "range" | "random";
+
+export interface LightboxState {
+  src: string;
+  alt: string;
+}

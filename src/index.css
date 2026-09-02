@@ -1,1 +1,200 @@
+/* File content generated based on the Figma design system:
+https://www.figma.com/design/KYiEsuZa9K3jDSc0V3HXBQ/Frequent-Flyer-%E2%80%94-UX-Design?node-id=2-3 */
+
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap");
 @import "tailwindcss";
+
+@theme inline {
+  /* Brand */
+  --color-deep-space: #0a0e14;
+  --color-pass-paper: #f5f2ec;
+  --color-core-orange: #ff4d00;
+  --color-core-orange-hover: #ff7040;
+  --color-core-orange-active: #cc3d00;
+  --color-core-blue: #0052cc;
+  --color-dark-blue: #002657;
+  --color-alachua-gold: #f2a900;
+  --color-gold-dark: #7a5c00;
+  --color-ink: #1a1a1a;
+  /* Orange text/UI on the light "pass-paper" surface — the brand orange
+     itself (#ff4d00) is only 2.98:1 there, below the 4.5:1 (text) / 3:1 (UI)
+     WCAG AA minimums, so on-paper eyebrows/rings use this darker variant. */
+  --color-core-orange-on-paper: #b33500;
+  /* On-paper label color shared by DataField and the boarding-pass flight
+     code — replaces two near-identical ad-hoc greys (#8A8276, #B0A896) that
+     both failed 4.5:1 against pass-paper. */
+  --color-paper-label: #746d63;
+
+  /* Status accents */
+  --color-status-positive: #00c851;
+  --color-status-positive-text: #6dce98;
+  --color-status-negative: #e05a5a;
+
+  /* Grey/navy ramp, darkest to lightest. navy-700/-600/label-grey are tuned
+     to meet 4.5:1 text contrast against --color-deep-space (WCAG 2.1 AA
+     1.4.3) rather than strict numeric-step darkness — all three are real,
+     readable UI text (labels, captions, buttons), not decorative fills. */
+  --color-void: #050c18;
+  /* Dark navy panel fill shared by cards/inputs across name-gate, mission-
+     briefing, and loading states — replaces ~7 near-identical ad-hoc hexes
+     (#0D1219/#0D1420/#0E141F/#121820/#131920/#131E2A) that were all the same
+     visual role. */
+  --color-panel: #0d1219;
+  --color-navy-900: #0d1828;
+  --color-navy-800: #1a2332;
+  --color-navy-700: #767e88;
+  --color-navy-600: #7c8590;
+  --color-label-grey: #828b96;
+  --color-navy-300: #8a96a8;
+  --color-navy-200: #c3cad3;
+
+  /* Fonts */
+  --font-display: "Orbitron", sans-serif;
+  --font-mono: "Space Mono", monospace;
+
+  /* Micro type scale */
+  --text-3xs: 7px;
+  --text-2xs: 8px;
+  --text-label: 9px;
+  --text-caption: 10px;
+  --text-body-sm: 11px;
+  --text-md: 12px;
+
+  /* Letter-spacing scale */
+  --tracking-snug: 0.05em;
+  --tracking-label: 0.18em;
+  --tracking-eyebrow: 0.35em;
+
+  /* Radius scale — deliberately NOT named --radius-sm/md/lg/xl: those exact
+     names are Tailwind v4's own reserved radius-scale keys, and defining
+     them here would silently override the built-in rounded-sm/md/lg/xl
+     utility classes app-wide, not just at the call sites below. */
+  --radius-card: 10px; /* boarding-pass card */
+  --radius-tile: 12px; /* mission-briefing mode cards */
+  --radius-modal: 14px; /* arrival modal */
+
+  /* Z-index scale */
+  --z-raised: 10;
+  --z-sticky: 30;
+  --z-dropdown: 50;
+  --z-overlay: 60;
+  --z-modal: 80;
+  --z-lightbox: 100;
+
+  /* Shadows */
+  --shadow-card:
+    0 2px 16px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.04);
+  --shadow-card-hover:
+    0 12px 40px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 77, 0, 0.25);
+  --shadow-panel: 0 16px 48px rgba(0, 0, 0, 0.9);
+  --shadow-glow-orange: 0 0 36px rgba(255, 77, 0, 0.22);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  overflow: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--color-deep-space);
+  color: var(--color-pass-paper);
+  font-family: var(--font-mono);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Hide scrollbars at rest, show on scroll */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-navy-700);
+  border-radius: 2px;
+}
+
+/* WCAG 2.4.7 Focus Visible: a low-specificity safety net so every focusable
+   element gets a visible ring even where a component doesn't set its own
+   focus-visible:outline-* utility. Component-level Tailwind classes (which
+   are more specific) still win where a different offset/inset is needed,
+   e.g. calendar day cells use a -2px inset so the ring doesn't get clipped
+   by neighboring cells. */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+[role="button"]:focus-visible,
+[role="radio"]:focus-visible,
+[role="menuitem"]:focus-visible,
+[tabindex]:not([tabindex="-1"]):focus-visible {
+  outline: 2px solid var(--color-core-orange);
+  outline-offset: 2px;
+}
+
+/* Custom date input styling */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.4);
+  cursor: pointer;
+}
+
+/* Hide number input spinners globally */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* WCAG 2.2.2 Pause, Stop, Hide: collapse decorative CSS animations/transitions
+   for users who've asked the OS for reduced motion. The starfield canvas
+   (imperative, not CSS) has its own check in StarfieldCanvas.tsx; the
+   loading spinner's SMIL animateTransform is left alone as it's a brief,
+   functional status indicator rather than decoration. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
